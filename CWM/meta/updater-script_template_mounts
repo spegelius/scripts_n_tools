@@ -1,0 +1,8 @@
+
+# mounts
+unmount("/preload");
+unmount("/data");
+unmount("/system");
+mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/system", "/system");
+mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/userdata", "/data");
+

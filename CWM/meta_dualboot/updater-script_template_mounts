@@ -1,0 +1,12 @@
+
+# mounts
+
+# dualboot support
+package_extract_file("dualboot.sh", "/tmp/dualboot.sh");
+set_perm(0, 0, 0777, "/tmp/dualboot.sh");
+
+ui_print("- mounting dualboot partitions");
+run_program("/tmp/dualboot.sh", "unmount-everything");
+run_program("/tmp/dualboot.sh", "mount-system");
+run_program("/tmp/dualboot.sh", "mount-data");
+
