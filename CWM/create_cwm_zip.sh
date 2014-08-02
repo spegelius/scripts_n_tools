@@ -2,6 +2,8 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+CURDIR=$(pwd)
+
 ZIPNAME=full_jactivelte-ota-eng.$(whoami).zip
 ZIPPATH=$OUT/$ZIPNAME
 
@@ -37,7 +39,6 @@ if [ "$2" == "--dualboot" ]; then
     VER="${VER}_dualboot"
 fi
 
-CURDIR=$(pwd)
 TARGETZIP="AOSP_${ANDROID_VER}_I9295_spegelius_v${VER}.zip"
 
 cd ${DIR}
@@ -103,12 +104,11 @@ cp -rf ${DIR}/${METADIR}/META-INF/* ${WORKDIR}/META-INF/
 
 cd ${WORKDIR}
 
-if [ -e ${DIR}/${TARGETZIP} ]; then
-    rm ${DIR}/${TARGETZIP}
+if [ -e ${CURDIR}/${TARGETZIP} ]; then
+    rm ${CURDIR}/${TARGETZIP}
 fi
 
-zip -qr ${DIR}/${TARGETZIP} *
-cd ${DIR}
+zip -qr ${CURDIR}/${TARGETZIP} *
+cd ${CURDIR}
 md5sum ${TARGETZIP} > ${TARGETZIP}.md5sum
 
-cd ${CURDIR}
