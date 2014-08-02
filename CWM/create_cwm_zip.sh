@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ZIPNAME=full_jactivelte-ota-eng.$(whoami).zip
 ZIPPATH=$OUT/$ZIPNAME
 
-ANDROID_VER=$(cat ../.repo/manifest.xml | grep "<default revision=\"refs/tags/android-" | cut -d - -f 2)
+ANDROID_VER=$(cat ${ANDROID_BUILD_TOP}/.repo/manifest.xml | grep "<default revision=\"refs/tags/android-" | cut -d - -f 2)
 ANDROID_VERLEN=$(echo $ANDROID_VER | wc -c)
 ANDROID_VERLEN=$(expr ${ANDROID_VERLEN} - 2)
 ANDROID_VER=$(echo ${ANDROID_VER} | cut -c "-${ANDROID_VERLEN}")
