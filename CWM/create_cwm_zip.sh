@@ -58,12 +58,11 @@ if [ ! -z ${DUALBOOT} ]; then
         echo "Dualboot directory not found, exiting..."
         exit 3
     fi
-
+	cp ${DUALBOOT}/patches/dualboot.sh ${WORKDIR}
     # patch bootimage
-    unzip ${TARGETZIP} ${WORKDIR}/boot.img
     ${DUALBOOT}/patch-file.sh ${WORKDIR}/boot.img -d jflte
     rm ${WORKDIR}/boot.img
-    mv boot_dualboot.img ${WORKDIR}/boot.img
+    mv ${WORKDIR}/boot_dual.img ${WORKDIR}/boot.img
     cp ${DIR}/dualboot.sh ${WORKDIR}
 
     MOUNTS=${DIR}/meta_dualboot/updater-script_template_mounts
