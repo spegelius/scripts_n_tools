@@ -49,8 +49,8 @@ cd workdir
 unzip -q $ZIPPATH
 WORKDIR=$(pwd)
 
-MOUNTS=${DIR}/meta/updater-script_template_mounts
-UNMOUNTS=${DIR}/meta/updater-script_template_unmounts
+MOUNTS=${DIR}/${METADIR}/updater-script_template_mounts
+UNMOUNTS=${DIR}/${METADIR}/updater-script_template_unmounts
 
 if [ ! -z ${DUALBOOT} ]; then
     if [ ! -d ${DUALBOOT} ]; then
