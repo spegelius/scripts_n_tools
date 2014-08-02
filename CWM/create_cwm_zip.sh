@@ -27,13 +27,13 @@ if [ ! -e $ZIPPATH ]; then
 fi
 
 VER="$1"
-METADIR=meta
+METADIR=meta_${ANDROID_VER}
 
 if [ "$2" == "--dualboot" ]; then
     echo "**"
     echo Dualboot enabled
     echo "**"
-    DUALBOOT=${DIR}/../../DualBootPatcher-7.0.0-release/
+    DUALBOOT=${DIR}/../../DualBootPatcher-8.0.0-release/
     VER="${VER}_dualboot"
 fi
 

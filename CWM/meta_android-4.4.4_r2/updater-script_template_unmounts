@@ -1,0 +1,5 @@
+
+# unmounts
+unmount("/system");
+unmount("/data");
+
