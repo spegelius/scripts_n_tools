@@ -63,7 +63,7 @@ if [ ! -z ${DUALBOOT} ]; then
     ${DUALBOOT}/patch-file.sh ${WORKDIR}/boot.img -d jflte -p dual --unsupported --ramdisk jflte/AOSP/AOSP --autopatcher Standard
     rm ${WORKDIR}/boot.img
     mv ${WORKDIR}/boot_dual.img ${WORKDIR}/boot.img
-    cp ${DIR}/dualboot.sh ${WORKDIR}
+    cp ${DUALBOOT}/patches/dualboot.sh ${WORKDIR}
 
     MOUNTS=${DIR}/meta_dualboot/updater-script_template_mounts
     UNMOUNTS=${DIR}/meta_dualboot/updater-script_template_unmounts
