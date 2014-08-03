@@ -60,7 +60,7 @@ if [ ! -z ${DUALBOOT} ]; then
     fi
 	cp ${DUALBOOT}/patches/dualboot.sh ${WORKDIR}
     # patch bootimage
-    ${DUALBOOT}/patch-file.sh ${WORKDIR}/boot.img -d jflte
+    ${DUALBOOT}/patch-file.sh ${WORKDIR}/boot.img -d jflte -p dual
     rm ${WORKDIR}/boot.img
     mv ${WORKDIR}/boot_dual.img ${WORKDIR}/boot.img
     cp ${DIR}/dualboot.sh ${WORKDIR}
