@@ -5,6 +5,22 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CURDIR=$(pwd)
 
 ZIPNAME=full_jactivelte-ota-eng.$(whoami).zip
+
+function find_ota_zip() {
+
+    pushd $OUT
+    if [ ! -e $ZIPNAME ]; then
+        ZIPNAME=$(ls -lt "full_jactivelte-ota-*.zip" | head -n 1 | awk '{ print $9}')
+        if [ $? -ne 0 ]; then
+            echo "No full_jactivelte-ota-*.zip found, exiting..."
+            popd
+            exit 1
+        fi
+    fi
+    popd
+}
+
+find_ota_zip
 ZIPPATH=$OUT/$ZIPNAME
 
 ANDROID_VER=$(cat ${ANDROID_BUILD_TOP}/.repo/manifest.xml | grep "<default revision=\"refs/tags/android-" | cut -d - -f 2)
@@ -18,15 +34,6 @@ if [ -z $1 ]; then
     exit 1
 fi
 
-if [ ! -e $ZIPPATH ]; then
-    if [ -e $OUT/full_jactivelte-ota-eng.spegelius.zip ]; then
-        ZIPNAME=full_jactivelte-ota-eng.spegelius.zip
-        ZIPPATH=$OUT/$ZIPNAME
-    else
-        echo "No zip $ZIPPATH found, exiting..."
-        exit 2
-    fi
-fi
 
 VER="$1"
 METADIR=meta_${ANDROID_VER}
