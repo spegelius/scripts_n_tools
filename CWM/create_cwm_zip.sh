@@ -11,7 +11,7 @@ function find_ota_zip() {
     pushd $OUT
     ls -la
     if [ ! -e $ZIPNAME ]; then
-        ZIPNAME=$(ls -lt "full_jactivelte-ota-*.zip" | head -n 1 | awk '{ print $9}')
+        ZIPNAME=$(ls -lt full_jactivelte-ota-*.zip | head -n 1 | awk '{ print $9}')
         if [ $? -ne 0 ]; then
             echo "No full_jactivelte-ota-*.zip found, exiting..."
             popd
