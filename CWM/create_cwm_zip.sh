@@ -22,6 +22,7 @@ function find_ota_zip() {
 
 find_ota_zip
 ZIPPATH=$OUT/$ZIPNAME
+echo "Using zip: $ZIPPATH"
 
 ANDROID_VER=$(cat ${ANDROID_BUILD_TOP}/.repo/manifest.xml | grep "<default revision=\"refs/tags/android-" | cut -d - -f 2)
 ANDROID_VERLEN=$(echo $ANDROID_VER | wc -c)
