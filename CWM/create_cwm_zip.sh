@@ -45,7 +45,7 @@ if [ "$2" == "--dualboot" ]; then
     echo Dualboot enabled
     echo "**"
     DUALBOOT=${DIR}/../../DualBootPatcher-8.0.0-release/
-    VER="${VER}_dualboot"
+    VER="${VER}_dual"
 fi
 
 TARGETZIP="AOSP_${ANDROID_VER}_I9295_spegelius_v${VER}.zip"
