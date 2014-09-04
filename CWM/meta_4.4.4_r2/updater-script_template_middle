@@ -17,7 +17,25 @@ symlink("/firmware-mdm/image/mdm_acdb.img", "/system/etc/firmware-msm/mdm_acdb.i
 symlink("/firmware-mdm/image/rpm.mbn", "/system/etc/firmware-msm/rpm.mbn");
 symlink("/firmware-mdm/image/sbl1.mbn", "/system/etc/firmware-msm/sbl1.mbn");
 symlink("/firmware-mdm/image/sbl2.mbn", "/system/etc/firmware-msm/sbl2.mbn");
-
+symlink("/firmware/image/q6.b00", "/system/etc/firmware-msm/q6.b00");
+symlink("/firmware/image/q6.b01", "/system/etc/firmware-msm/q6.b01");
+symlink("/firmware/image/q6.b03", "/system/etc/firmware-msm/q6.b03");
+symlink("/firmware/image/q6.b04", "/system/etc/firmware-msm/q6.b04");
+symlink("/firmware/image/q6.b05", "/system/etc/firmware-msm/q6.b05");
+symlink("/firmware/image/q6.b06", "/system/etc/firmware-msm/q6.b06");
+symlink("/firmware/image/q6.mdt", "/system/etc/firmware-msm/q6.mdt");
+symlink("/firmware/image/tzapps.b00", "/system/etc/firmware-msm/tzapps.b00");
+symlink("/firmware/image/tzapps.b01", "/system/etc/firmware-msm/tzapps.b01");
+symlink("/firmware/image/tzapps.b02", "/system/etc/firmware-msm/tzapps.b02");
+symlink("/firmware/image/tzapps.b03", "/system/etc/firmware-msm/tzapps.b03");
+symlink("/firmware/image/tzapps.mdt", "/system/etc/firmware-msm/tzapps.mdt");
+symlink("/firmware/image/vidc.b00", "/system/etc/firmware-msm/vidc.b00");
+symlink("/firmware/image/vidc.b01", "/system/etc/firmware-msm/vidc.b01");
+symlink("/firmware/image/vidc.b02", "/system/etc/firmware-msm/vidc.b02");
+symlink("/firmware/image/vidc.b03", "/system/etc/firmware-msm/vidc.b03");
+symlink("/firmware/image/vidc.mdt", "/system/etc/firmware-msm/vidc.mdt");
+symlink("Roboto-Bold.ttf", "/system/fonts/DroidSans-Bold.ttf");
+symlink("Roboto-Regular.ttf", "/system/fonts/DroidSans.ttf");
 symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
         "/system/xbin/adjtimex", "/system/xbin/arp", "/system/xbin/ash",
         "/system/xbin/awk", "/system/xbin/base64", "/system/xbin/basename",
@@ -100,10 +118,12 @@ symlink("busybox", "/system/xbin/[", "/system/xbin/[[",
         "/system/xbin/which", "/system/xbin/whoami", "/system/xbin/xargs",
         "/system/xbin/xz", "/system/xbin/xzcat", "/system/xbin/yes",
         "/system/xbin/zcat");
+symlink("libGLESv2.so", "/system/lib/libGLESv3.so");
 symlink("logcat", "/system/bin/lolcat");
-symlink("pigz", "/system/xbin/unpigz");
+symlink("mksh", "/system/bin/sh");
 symlink("mount.exfat", "/system/bin/fsck.exfat",
         "/system/bin/mkfs.exfat");
+symlink("pigz", "/system/xbin/unpigz");
 symlink("toolbox", "/system/bin/cat", "/system/bin/chcon",
         "/system/bin/chmod", "/system/bin/chown", "/system/bin/clear",
         "/system/bin/cmp", "/system/bin/cp", "/system/bin/date",
@@ -132,48 +152,73 @@ symlink("toolbox", "/system/bin/cat", "/system/bin/chcon",
         "/system/bin/wipe");
 symlink("dumpstate", "/system/bin/dumpcrash");
 symlink("debuggerd", "/system/bin/csview");
-symlink("mksh", "/system/bin/sh");
-symlink("Roboto-Regular.ttf", "/system/fonts/DroidSans.ttf");
-symlink("Roboto-Bold.ttf", "/system/fonts/DroidSans-Bold.ttf");
-symlink("libGLESv2.so", "/system/lib/libGLESv3.so");
 ui_print("- Setting Permissions");
-#set_metadata_recursive("/system", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
-set_perm_recursive(0, 0, 0755, 0644, "/system");
-#set_metadata_recursive("/system/addon.d", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
-#set_metadata_recursive("/system/bin", "uid", 0, "gid", 2000, "dmode", 0755, "fmode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
-set_perm_recursive(0, 2000, 0755, 0755, "/system/bin");
-#set_perm_recursive(0, 0, 0755, 0755, "/system/addon.d");
-set_perm(0, 3003, 06755, "/system/bin/ip");
-#set_perm(0, 1000, 04750, "/system/bin/diag_mdlog");
-set_perm(0, 3003, 02750, "/system/bin/netcfg");
-set_perm(0, 3004, 02755, "/system/bin/ping");
-#set_perm(0, 0, 0700, "/system/bin/rtcc_init");
-set_perm(0, 2000, 06750, "/system/bin/run-as");
-#set_perm(0, 0, 06755, "/system/bin/su");
-set_perm_recursive(0, 2000, 0755, 0755, "/system/etc/init.d");
-set_perm(0, 0, 0755, "/system/etc/init.d");
-#set_perm(0, 2000, 0550, "/system/etc/init.goldfish.sh");
-#set_perm(1002, 1002, 0440, "/system/etc/dbus.conf");
-set_perm(1014, 2000, 0550, "/system/etc/dhcpcd/dhcpcd-run-hooks");
-set_perm_recursive(0, 0, 0755, 0555, "/system/etc/ppp");
-#set_perm_recursive(1002, 1002, 0755, 0440, "/system/etc/bluetooth");
-#set_perm(0, 0, 0755, "/system/etc/bluetooth");
-#set_perm(1000, 1000, 0640, "/system/etc/bluetooth/auto_pair_devlist.conf");
-#set_perm(3002, 3002, 0444, "/system/etc/bluetooth/blacklist.conf");
-#set_metadata("/system/bin/hostapd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:hostapd_exec:s0");
-#set_metadata("/system/bin/wpa_supplicant", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:wpa_exec:s0");
-set_perm(0, 2000, 0755, "/system/vendor");
-set_perm_recursive(0, 2000, 0755, 0644, "/system/vendor/etc");
-#set_perm(0, 0, 0644, "/system/vendor/etc/audio_effects.conf");
-set_perm(0, 2000, 0755, "/system/vendor/firmware");
-set_perm_recursive(0, 2000, 0755, 0755, "/system/vendor/lib");
-set_perm(0, 0, 0644, "/system/vendor/lib/libbt-vendor.so");
-run_program("/sbin/busybox", "chmod", "0771", "/data/data");
-run_program("/sbin/busybox", "chmod", "0771", "/data/app");
-set_perm_recursive(0, 2000, 0755, 0755, "/system/xbin");
-set_perm(0, 0, 06755, "/system/xbin/librank");
-set_perm(0, 0, 06755, "/system/xbin/procmem");
-set_perm(0, 0, 06755, "/system/xbin/procrank");
+set_metadata_recursive("/system", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata_recursive("/system/addon.d", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata_recursive("/system/bin", "uid", 0, "gid", 2000, "dmode", 0755, "fmode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/bin/app_process", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:zygote_exec:s0");
+set_metadata("/system/bin/clatd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:clatd_exec:s0");
+#set_perm_recursive(0, 0, 0755, 0644, "/system");
+#set_perm_recursive(0, 2000, 0755, 0755, "/system/bin");
+#set_perm(0, 3003, 06755, "/system/bin/ip");
+#set_perm(0, 3003, 02750, "/system/bin/netcfg");
+#set_perm(0, 3004, 02755, "/system/bin/ping");
+#set_perm(0, 2000, 06750, "/system/bin/run-as");
+#set_perm_recursive(0, 2000, 0755, 0755, "/system/etc/init.d");
+#set_perm(0, 0, 0755, "/system/etc/init.d");
+set_metadata("/system/bin/debuggerd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:debuggerd_exec:s0");
+set_metadata("/system/bin/dhcpcd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:dhcp_exec:s0");
+set_metadata("/system/bin/dnsmasq", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:dnsmasq_exec:s0");
+set_metadata("/system/bin/drmserver", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:drmserver_exec:s0");
+set_metadata("/system/bin/efsks", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:kickstart_exec:s0");
+set_metadata("/system/bin/hostapd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:hostapd_exec:s0");
+set_metadata("/system/bin/installd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:installd_exec:s0");
+set_metadata("/system/bin/keystore", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:keystore_exec:s0");
+set_metadata("/system/bin/ks", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:kickstart_exec:s0");
+set_metadata("/system/bin/mediaserver", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:mediaserver_exec:s0");
+set_metadata("/system/bin/mksh", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:shell_exec:s0");
+set_metadata("/system/bin/mtpd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:mtp_exec:s0");
+set_metadata("/system/bin/netcfg", "uid", 0, "gid", 3003, "mode", 02750, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/bin/netd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:netd_exec:s0");
+set_metadata("/system/bin/ping", "uid", 0, "gid", 0, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:ping_exec:s0");
+set_metadata("/system/bin/pppd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:ppp_exec:s0");
+#set_perm(1014, 2000, 0550, "/system/etc/dhcpcd/dhcpcd-run-hooks");
+#set_perm_recursive(0, 0, 0755, 0555, "/system/etc/ppp");
+#set_perm(0, 2000, 0755, "/system/vendor");
+#set_perm_recursive(0, 2000, 0755, 0644, "/system/vendor/etc");
+#set_perm(0, 2000, 0755, "/system/vendor/firmware");
+#set_perm_recursive(0, 2000, 0755, 0755, "/system/vendor/lib");
+#set_perm(0, 0, 0644, "/system/vendor/lib/libbt-vendor.so");
+#run_program("/sbin/busybox", "chmod", "0771", "/data/data");
+#run_program("/sbin/busybox", "chmod", "0771", "/data/app");
+#set_perm_recursive(0, 2000, 0755, 0755, "/system/xbin");
+#set_perm(0, 0, 06755, "/system/xbin/librank");
+#set_perm(0, 0, 06755, "/system/xbin/procmem");
+#set_perm(0, 0, 06755, "/system/xbin/procrank");
+set_metadata("/system/bin/qcks", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:kickstart_exec:s0");
+set_metadata("/system/bin/racoon", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:racoon_exec:s0");
+set_metadata("/system/bin/rild", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:rild_exec:s0");
+set_metadata("/system/bin/run-as", "uid", 0, "gid", 2000, "mode", 0750, "capabilities", 0xc0, "selabel", "u:object_r:runas_exec:s0");
+set_metadata("/system/bin/sdcard", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:sdcardd_exec:s0");
+set_metadata("/system/bin/servicemanager", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:servicemanager_exec:s0");
+set_metadata("/system/bin/surfaceflinger", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:surfaceflinger_exec:s0");
+set_metadata("/system/bin/vold", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:vold_exec:s0");
+set_metadata("/system/bin/wpa_supplicant", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:wpa_exec:s0");
+set_metadata_recursive("/system/etc/dhcpcd", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:dhcp_system_file:s0");
+set_metadata("/system/etc/dhcpcd/dhcpcd-run-hooks", "uid", 1014, "gid", 2000, "mode", 0550, "capabilities", 0x0, "selabel", "u:object_r:dhcp_system_file:s0");
+set_metadata_recursive("/system/etc/init.d", "uid", 0, "gid", 2000, "dmode", 0755, "fmode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/etc/init.d", "uid", 0, "gid", 0, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata_recursive("/system/etc/ppp", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0555, "capabilities", 0x0, "selabel", "u:object_r:ppp_system_file:s0");
+set_metadata("/system/vendor", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata_recursive("/system/vendor/etc", "uid", 0, "gid", 2000, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/etc/audio_effects.conf", "uid", 0, "gid", 0, "mode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/firmware", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib/egl", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata_recursive("/system/xbin", "uid", 0, "gid", 2000, "dmode", 0755, "fmode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/xbin/librank", "uid", 0, "gid", 0, "mode", 06755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/xbin/procmem", "uid", 0, "gid", 0, "mode", 06755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/xbin/procrank", "uid", 0, "gid", 0, "mode", 06755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 
 #SuperSU
 set_perm(0, 0, 0777, "/system/tmp");
@@ -212,15 +257,15 @@ run_program("/system/bin/toolbox", "chcon", "u:object_r:system_file:s0", "/syste
 run_program("/system/bin/toolbox", "chcon", "u:object_r:system_file:s0", "/system/etc/.installed_su_daemon");
 
 # rest of perms
-set_perm(0, 1000, 0755, "/system/xbin/busybox");
+#set_perm(0, 1000, 0755, "/system/xbin/busybox");
 #set_perm(0, 1000, 0755, "/system/xbin/nano");
-set_perm(0, 1000, 0755, "/system/xbin/sqlite3");
+#set_perm(0, 1000, 0755, "/system/xbin/sqlite3");
 #set_perm(0, 1000, 0755, "/system/xbin/zipalign");
-symlink("/system/xbin/busybox", "/system/bin/busybox");
-symlink("/system/xbin/su", "/system/bin/su");
+#symlink("/system/xbin/busybox", "/system/bin/busybox");
+#symlink("/system/xbin/su", "/system/bin/su");
 
 # install busybox
-run_program("/system/xbin/busybox", "--install", "-s", "/system/xbin");
+#run_program("/system/xbin/busybox", "--install", "-s", "/system/xbin");
 show_progress(0.1, 10);
 show_progress(0.2, 0);
 
