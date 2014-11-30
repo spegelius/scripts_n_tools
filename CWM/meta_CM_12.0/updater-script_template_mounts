@@ -1,0 +1,15 @@
+
+# mounts
+run_program("/sbin/busybox", "mount", "/system");
+package_extract_file("system/bin/backuptool.sh", "/tmp/backuptool.sh");
+package_extract_file("system/bin/backuptool.functions", "/tmp/backuptool.functions");
+set_metadata("/tmp/backuptool.sh", "uid", 0, "gid", 0, "mode", 0755);
+set_metadata("/tmp/backuptool.functions", "uid", 0, "gid", 0, "mode", 0644);
+run_program("/tmp/backuptool.sh", "backup");
+unmount("/system");
+show_progress(0.750000, 0);
+package_extract_file("fscheck/format.sh", "/tmp/format.sh");
+set_metadata("/tmp/format.sh", "uid", 0, "gid", 0, "mode", 0755);
+run_program("/tmp/format.sh");
+run_program("/sbin/busybox", "mount", "/system");
+

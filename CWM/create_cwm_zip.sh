@@ -4,40 +4,59 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 CURDIR=$(pwd)
 
-ZIPNAME=full_jactivelte-ota-eng.$(whoami).zip
+
 
 function find_ota_zip() {
 
     pushd $OUT
-    if [ ! -e $ZIPNAME ]; then
-        ZIPNAME=$(ls -lt full_jactivelte-ota-*.zip | head -n 1 | awk '{ print $9}')
-        if [ "${ZIPNAME}" == "" ]; then
-            echo "No full_jactivelte-ota-*.zip found, exiting..."
-            popd
-            exit 1
-        fi
-    fi
+
+	ZIPNAME=$(ls -lt *-ota-*.zip | head -n 1 | awk '{ print $9}')
+	if [ "${ZIPNAME}" == "" ]; then
+		echo "No ota zip found, exiting..."
+		popd
+		exit 1
+	fi
+
     popd
 }
 
-find_ota_zip
-ZIPPATH=$OUT/$ZIPNAME
-echo "Using zip: $ZIPPATH"
+function build_type() {
+	ANDROID_VER=$(cat ${ANDROID_BUILD_TOP}/.repo/manifest.xml | grep "<default revision=\"refs/tags/android-" | cut -d - -f 2)
+	if [ "$ANDROID_VER" != "" ]; then
+	    TYPE="AOSP"
+	else
+	    ANDROID_VER=$(cat ${ANDROID_BUILD_TOP}/.repo/manifest.xml | grep "<default revision=\"refs/heads/cm-" | cut -d - -f 2)
+	fi
+	if [ "$ANDROID_VER" != "" ]; then
+	    TYPE="CM"
+	else
+        echo "Unknown rom in $OUT"
+        exit 1
+	fi
+    ANDROID_VERLEN=$(echo $ANDROID_VER | wc -c)
+    ANDROID_VERLEN=$(expr ${ANDROID_VERLEN} - 2)
+    ANDROID_VER=$(echo ${ANDROID_VER} | cut -c "-${ANDROID_VERLEN}")
+}
 
-ANDROID_VER=$(cat ${ANDROID_BUILD_TOP}/.repo/manifest.xml | grep "<default revision=\"refs/tags/android-" | cut -d - -f 2)
-ANDROID_VERLEN=$(echo $ANDROID_VER | wc -c)
-ANDROID_VERLEN=$(expr ${ANDROID_VERLEN} - 2)
-ANDROID_VER=$(echo ${ANDROID_VER} | cut -c "-${ANDROID_VERLEN}")
-echo Android version: ${ANDROID_VER}
+
+build_type
+find_ota_zip
+
+
+ZIPPATH=$OUT/$ZIPNAME
+echo "Using OTA zip: ${ZIPPATH}"
+
+
+echo Android version: ${ANDROID_VER}, type: ${TYPE}
 
 if [ -z $1 ]; then
-    echo "No version given (want for example 0.5!), exiting..."
-    exit 1
+    echo "No version given (want for example 0.5!), using date"
+    VER=$(date -r ${ZIPPATH} +%d%m%y_%H%M%S)
+else
+    VER="$1"
 fi
 
-
-VER="$1"
-METADIR=meta_${ANDROID_VER}
+METADIR=meta_${TYPE}_${ANDROID_VER}
 
 if [ "$2" == "--dualboot" ]; then
     echo "**"
@@ -47,7 +66,11 @@ if [ "$2" == "--dualboot" ]; then
     VER="${VER}_dual"
 fi
 
-TARGETZIP="AOSP_${ANDROID_VER}_I9295_spegelius_v${VER}.zip"
+if [ "${TYPE}" == "AOSP" ]; then
+    TARGETZIP="AOSP_${ANDROID_VER}_I9295_spegelius_v${VER}.zip"
+elif [ "${TYPE}" == "CM" ]; then
+    TARGETZIP="cm-${ANDROID_VER}_unofficial_${VER}_jactivelte.zip"
+fi
 
 cd ${DIR}
 if [ -e workdir ]; then
@@ -73,11 +96,15 @@ if [ ! -z ${DUALBOOT} ]; then
     mv ${WORKDIR}/boot_dual.img ${WORKDIR}/boot.img
     cp ${DUALBOOT}/patches/dualboot.sh ${WORKDIR}
 
-    MOUNTS=${DIR}/meta_dualboot/updater-script_template_mounts
-    UNMOUNTS=${DIR}/meta_dualboot/updater-script_template_unmounts
+    MOUNTS=${DIR}/${METADIR}/updater-script_template_mounts_dual
+    UNMOUNTS=${DIR}/${METADIR}/updater-script_template_unmounts_dual
 fi
 
-cp -rf ${DIR}/system/* ${WORKDIR}/system/
+if [ "${TYPE}" == "AOSP" ]; then
+    cp -rf ${DIR}/system/* ${WORKDIR}/system/
+elif [ "${TYPE}" == "CM" ]; then
+    cp -r ${DIR}/fscheck ${WORKDIR}
+fi
 
 # zip META_INF
 echo "**"
@@ -85,8 +112,14 @@ echo Adding META-INF from ${DIR}/${METADIR}
 echo "**"
 mkdir -p ${DIR}/${METADIR}/META-INF/com/google/android/
 
+if [ "${TYPE}" == "AOSP" ]; then
+    WHITESPACE_AVER="26"
+elif [ "${TYPE}" == "CM" ]; then
+    WHITESPACE_AVER="23"
+fi
+
 AVERSTRING="${ANDROID_VER} for GT-I9295"
-COUNT=$(expr 25 - $(echo $AVERSTRING | wc -c))
+COUNT=$(expr ${WHITESPACE_AVER} - $(echo $AVERSTRING | wc -c))
 for i in $(eval echo "{1..$COUNT}"); do
     AVERSTRING="${AVERSTRING} "
 done
@@ -99,7 +132,7 @@ done
 echo $AVERSTRING
 echo $VERSTRING
 
-cat ${DIR}/${METADIR}/updater-script_template_start | sed "s/ANDROIDVERHERE/v${AVERSTRING}*\");/" > ${DIR}/${METADIR}/_temp
+cat ${DIR}/${METADIR}/updater-script_template_start | sed "s/ANDROIDVERHERE/${AVERSTRING}*\");/" > ${DIR}/${METADIR}/_temp
 cat ${DIR}/${METADIR}/_temp | sed "s/VERSIONSTRINGHERE/ui_print\(\"\* v${VERSTRING}*\");/" > ${DIR}/${METADIR}/META-INF/com/google/android/updater-script
 rm ${DIR}/${METADIR}/_temp
 cat ${MOUNTS} >> ${DIR}/${METADIR}/META-INF/com/google/android/updater-script
