@@ -26,12 +26,13 @@ function build_type() {
 	    TYPE="AOSP"
 	else
 	    ANDROID_VER=$(cat ${ANDROID_BUILD_TOP}/.repo/manifest.xml | grep "<default revision=\"refs/heads/cm-" | cut -d - -f 2)
-	fi
-	if [ "$ANDROID_VER" != "" ]; then
-	    TYPE="CM"
-	else
-        echo "Unknown rom in $OUT"
-        exit 1
+
+    	if [ "$ANDROID_VER" != "" ]; then
+	        TYPE="CM"
+	    else
+            echo "Unknown rom in $OUT"
+            exit 1
+	    fi
 	fi
     ANDROID_VERLEN=$(echo $ANDROID_VER | wc -c)
     ANDROID_VERLEN=$(expr ${ANDROID_VERLEN} - 2)
@@ -113,7 +114,7 @@ echo "**"
 mkdir -p ${DIR}/${METADIR}/META-INF/com/google/android/
 
 if [ "${TYPE}" == "AOSP" ]; then
-    WHITESPACE_AVER="26"
+    WHITESPACE_AVER="28"
 elif [ "${TYPE}" == "CM" ]; then
     WHITESPACE_AVER="23"
 fi
