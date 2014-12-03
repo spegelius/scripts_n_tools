@@ -1,21 +1,8 @@
 These files need to be in system/ dir
 
-system/bin/.ext
-system/bin/.ext/.su
 system/tmp
-system/tmp/chattr
-system/tmp/chattr.pie
+system/tmp/SuperSU.zip (copy Supersu ver2.37 to this name)
 system/app
 system/app/DualBootPatcherAndroid.apk
 system/app/ESFileExplorer.apk
-system/app/Superuser.apk
-system/xbin
-system/xbin/sugote
-system/xbin/su
-system/xbin/daemonsu
-system/etc
-system/etc/install-recovery.sh
-system/etc/.installed_su_daemon
-system/etc/init.d
-system/etc/init.d/99SuperSUDaemon
 system/etc/apns-conf.xml
