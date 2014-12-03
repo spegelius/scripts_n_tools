@@ -3,7 +3,7 @@
 
 # dualboot support
 package_extract_file("dualboot.sh", "/tmp/dualboot.sh");
-set_perm(0, 0, 0777, "/tmp/dualboot.sh");
+set_metadata("/tmp/dualboot.sh", "uid", 0, "gid", 0, "mode", 0777);
 
 ui_print("- mounting dualboot partitions");
 run_program("/tmp/dualboot.sh", "unmount-everything");

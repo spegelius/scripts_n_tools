@@ -52,7 +52,7 @@ echo Android version: ${ANDROID_VER}, type: ${TYPE}
 
 if [ -z $1 ]; then
     echo "No version given (want for example 0.5!), using date"
-    VER=$(date -r ${ZIPPATH} +%d%m%y_%H%M%S)
+    VER=$(date -r ${ZIPPATH} +%Y%m%d_%H%M%S)
 else
     VER="$1"
 fi
