@@ -37,6 +37,8 @@ function build_type() {
     ANDROID_VERLEN=$(echo $ANDROID_VER | wc -c)
     ANDROID_VERLEN=$(expr ${ANDROID_VERLEN} - 2)
     ANDROID_VER=$(echo ${ANDROID_VER} | cut -c "-${ANDROID_VERLEN}")
+    
+    METADIR=meta_${TYPE}_${ANDROID_VER}
 
     if [ "${TYPE}" == "CM" ]; then
         if [ "${ANDROID_VER}" == "12.0" ]; then
@@ -68,8 +70,6 @@ fi
 if [ "${TYPE}" == "CM" ]; then
     VER="${VER}-UNOFFICIAL-jactivelte"
 fi
-
-METADIR=meta_${TYPE}_${ANDROID_VER}
 
 if [ "$2" == "--dualboot" ]; then
     echo "**"
