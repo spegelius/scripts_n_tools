@@ -37,6 +37,14 @@ function build_type() {
     ANDROID_VERLEN=$(echo $ANDROID_VER | wc -c)
     ANDROID_VERLEN=$(expr ${ANDROID_VERLEN} - 2)
     ANDROID_VER=$(echo ${ANDROID_VER} | cut -c "-${ANDROID_VERLEN}")
+
+    if [ "${TYPE}" == "CM" ]; then
+        if [ "${ANDROID_VER}" == "12.0" ]; then
+            ANDROID_VER="12"
+        elif [ "${ANDROID_VER}" == "11.0" ]; then
+            ANDROID_VER="11"
+        fi
+    fi
 }
 
 
@@ -57,6 +65,10 @@ else
     VER="$1"
 fi
 
+if [ "${TYPE}" == "CM" ]; then
+    VER="${VER}-UNOFFICIAL-jactivelte"
+fi
+
 METADIR=meta_${TYPE}_${ANDROID_VER}
 
 if [ "$2" == "--dualboot" ]; then
@@ -70,7 +82,7 @@ fi
 if [ "${TYPE}" == "AOSP" ]; then
     TARGETZIP="AOSP_${ANDROID_VER}_I9295_spegelius_v${VER}.zip"
 elif [ "${TYPE}" == "CM" ]; then
-    TARGETZIP="cm-${ANDROID_VER}_unofficial_${VER}_jactivelte.zip"
+    TARGETZIP="cm-${ANDROID_VER}_${VER}.zip"
 fi
 
 cd ${DIR}
