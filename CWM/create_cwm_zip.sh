@@ -115,8 +115,10 @@ fi
 
 if [ "${TYPE}" == "AOSP" ]; then
     cp -rf ${DIR}/system/* ${WORKDIR}/system/
-elif [ "${TYPE}" == "CM" ]; then
+fi
+if [ "$2" == "--dynfs" ]; then
     cp -r ${DIR}/fscheck ${WORKDIR}
+    MOUNTS=${DIR}/${METADIR}/updater-script_template_mounts_dynfs
 fi
 
 # zip META_INF

@@ -1,0 +1,6 @@
+
+# mounts
+package_extract_file("fscheck/format.sh", "/tmp/format.sh");
+set_metadata("/tmp/format.sh", "uid", 0, "gid", 0, "mode", 0755);
+run_program("/tmp/format.sh");
+run_program("/sbin/busybox", "mount", "/system");

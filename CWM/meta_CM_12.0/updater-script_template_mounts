@@ -1,15 +1,19 @@
 
 # mounts
-run_program("/sbin/busybox", "mount", "/system");
+mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/system", "/system");
 package_extract_file("system/bin/backuptool.sh", "/tmp/backuptool.sh");
 package_extract_file("system/bin/backuptool.functions", "/tmp/backuptool.functions");
 set_metadata("/tmp/backuptool.sh", "uid", 0, "gid", 0, "mode", 0755);
 set_metadata("/tmp/backuptool.functions", "uid", 0, "gid", 0, "mode", 0644);
 run_program("/tmp/backuptool.sh", "backup");
 unmount("/system");
-show_progress(0.750000, 0);
-package_extract_file("fscheck/format.sh", "/tmp/format.sh");
-set_metadata("/tmp/format.sh", "uid", 0, "gid", 0, "mode", 0755);
-run_program("/tmp/format.sh");
-run_program("/sbin/busybox", "mount", "/system");
-
+show_progress(0.500000, 0);
+#mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/userdata", "/data");
+#package_extract_file("system/bin/otasigcheck.sh", "/tmp/otasigcheck.sh");
+#package_extract_file("META-INF/org/cyanogenmod/releasekey", "/tmp/releasekey");
+#set_metadata("/tmp/otasigcheck.sh", "uid", 0, "gid", 0, "mode", 0755);
+#run_program("/tmp/otasigcheck.sh");
+#sha1_check(read_file("/tmp/releasekey"),"7241e92725436afc79389d4fc2333a2aa8c20230") && abort("Can't install this package on top of incompatible data. Please try another package or run a factory reset");
+#unmount("/data");
+format("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/system", "0", "/system");
+mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/system", "/system");
