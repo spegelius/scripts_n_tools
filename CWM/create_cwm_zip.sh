@@ -67,28 +67,24 @@ else
     VER="$1"
 fi
 
-if [ "${TYPE}" == "CM" ]; then
-    VER="${VER}-UNOFFICIAL-jactivelte"
-fi
-
 if [ "$2" == "--dualboot" ]; then
     echo "**"
     echo Dualboot enabled
     echo "**"
     DUALBOOT=${DIR}/../../DualBootPatcher-8.0.0-release/
-    VER="${VER}_dual"
+    EXTRAVER="_dual"
 fi
 if [ "$2" == "--dynfs" ]; then
     echo "**"
     echo Dynfs enabled
     echo "**"
-    VER="${VER}_dynfs"
+    EXTRAVER="_dynfs"
 fi
 
 if [ "${TYPE}" == "AOSP" ]; then
-    TARGETZIP="AOSP_${ANDROID_VER}_I9295_spegelius_v${VER}.zip"
+    TARGETZIP="AOSP_${ANDROID_VER}_I9295_spegelius_v${VER}${EXTRAVER}.zip"
 elif [ "${TYPE}" == "CM" ]; then
-    TARGETZIP="cm-${ANDROID_VER}-${VER}.zip"
+    TARGETZIP="cm-${ANDROID_VER}-${VER}-UNOFFICIAL-jactivelte${EXTRAVER}.zip"
 fi
 
 cd ${DIR}
