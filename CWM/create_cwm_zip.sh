@@ -82,7 +82,7 @@ fi
 if [ "${TYPE}" == "AOSP" ]; then
     TARGETZIP="AOSP_${ANDROID_VER}_I9295_spegelius_v${VER}.zip"
 elif [ "${TYPE}" == "CM" ]; then
-    TARGETZIP="cm-${ANDROID_VER}_${VER}.zip"
+    TARGETZIP="cm-${ANDROID_VER}-${VER}.zip"
 fi
 
 cd ${DIR}
