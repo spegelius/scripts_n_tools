@@ -78,6 +78,12 @@ if [ "$2" == "--dualboot" ]; then
     DUALBOOT=${DIR}/../../DualBootPatcher-8.0.0-release/
     VER="${VER}_dual"
 fi
+if [ "$2" == "--dynfs" ]; then
+    echo "**"
+    echo Dynfs enabled
+    echo "**"
+    VER="${VER}_dynfs"
+fi
 
 if [ "${TYPE}" == "AOSP" ]; then
     TARGETZIP="AOSP_${ANDROID_VER}_I9295_spegelius_v${VER}.zip"
