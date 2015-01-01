@@ -89,14 +89,14 @@
 # multiple times, due to different recoveries and firmwares behaving
 # differently, and it thus being required for the correct result.
 
-OUTFD=$2
-ZIP=$3
+INSTLOG=/system/supersu_install.log
 
 SYSTEMLIB=/system/lib
 
 ui_print() {
-  echo -n -e "ui_print $1\n" > /proc/self/fd/$OUTFD
-  echo -n -e "ui_print\n" > /proc/self/fd/$OUTFD
+  echo -n -e "ui_print $1\n"
+  echo -n -e "ui_print\n"
+  echo $1 >> $INSTLOG
 }
 
 ch_con() {
@@ -134,13 +134,11 @@ cp_perm() {
   cat $4 > $5
   set_perm $1 $2 $3 $5 $6
 }
+echo "" > $INSTLOG
 
 ui_print "*********************"
 ui_print "SuperSU installer ZIP"
 ui_print "*********************"
-
-ui_print "- Mounting /system, /data and rootfs"
-
 
 cat /system/bin/toolbox > /system/toolbox
 chmod 0755 /system/toolbox
@@ -195,7 +193,7 @@ if [ ! -f $MKSH ]; then
   MKSH=/system/bin/sh
 fi
 
-#ui_print "DBG [$API] [$ABI] [$ABI2] [$ABILONG] [$ARCH] [$MKSH]"
+ui_print "DBG [$API] [$ABI] [$ABI2] [$ABILONG] [$ARCH] [$MKSH]"
 
 ui_print "- Extracting files"
 cd /tmp
