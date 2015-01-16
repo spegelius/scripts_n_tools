@@ -7,7 +7,7 @@ CURDIR=$(pwd)
 echo "Creating recovery CWM installer"
 
 if [ -z $1 ]; then
-    exho "No recovery.img path given, exit"
+    echo "No recovery.img path given, exit"
     exit 1
 fi
 
