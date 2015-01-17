@@ -4,13 +4,11 @@ package_extract_file("dualboot.sh", "/tmp/dualboot.sh");
 set_metadata("/tmp/dualboot.sh", "uid", 0, "gid", 0, "mode", 0777);
 ui_print("NOT INSTALLING AS PRIMARY");
 run_program("/tmp/dualboot.sh", "unmount-everything");
-
+package_extract_dir("install", "/tmp/install");
+set_metadata_recursive("/tmp/install", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644);
+set_metadata_recursive("/tmp/install/bin", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755);
 run_program("/tmp/dualboot.sh", "mount-system");
-package_extract_file("system/bin/backuptool.sh", "/tmp/backuptool.sh");
-package_extract_file("system/bin/backuptool.functions", "/tmp/backuptool.functions");
-set_metadata("/tmp/backuptool.sh", "uid", 0, "gid", 0, "mode", 0755);
-set_metadata("/tmp/backuptool.functions", "uid", 0, "gid", 0, "mode", 0644);
-run_program("/tmp/backuptool.sh", "backup");
+run_program("/tmp/install/bin/backuptool.sh", "backup");;
 run_program("/tmp/dualboot.sh", "unmount-system");
 show_progress(0.500000, 0);
 #run_program("/tmp/dualboot.sh", "mount-data");

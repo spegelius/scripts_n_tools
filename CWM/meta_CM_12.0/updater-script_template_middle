@@ -266,13 +266,7 @@ set_metadata("/system/xbin/procrank", "uid", 0, "gid", 0, "mode", 06755, "capabi
 set_metadata("/system/xbin/su", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:su_exec:s0");
 delete("/system/bin/otasigcheck.sh");
 show_progress(0.020000, 10);
-package_extract_file("system/bin/backuptool.sh", "/tmp/backuptool.sh");
-package_extract_file("system/bin/backuptool.functions", "/tmp/backuptool.functions");
-set_metadata("/tmp/backuptool.sh", "uid", 0, "gid", 0, "mode", 0755);
-set_metadata("/tmp/backuptool.functions", "uid", 0, "gid", 0, "mode", 0644);
-run_program("/tmp/backuptool.sh", "restore");
-delete("/system/bin/backuptool.sh");
-delete("/system/bin/backuptool.functions");
+run_program("/tmp/install/bin/backuptool.sh", "restore");
 show_progress(0.050000, 5);
 package_extract_file("boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot");
 show_progress(0.200000, 10);
