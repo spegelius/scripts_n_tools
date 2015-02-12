@@ -131,14 +131,16 @@ set_perm() {
 
 cp_perm() {
   rm $5
-  cat $4 > $5
-  set_perm $1 $2 $3 $5 $6
+  if [ -f "$4" ]; then
+    cat $4 > $5
+    set_perm $1 $2 $3 $5 $6
+  fi
 }
 echo "" > $INSTLOG
 
-ui_print "*********************"
-ui_print "SuperSU installer ZIP"
-ui_print "*********************"
+ui_print "*****************"
+ui_print "SuperSU installer"
+ui_print "*****************"
 
 cat /system/bin/toolbox > /system/toolbox
 chmod 0755 /system/toolbox
@@ -205,7 +207,7 @@ BIN=/tmp/supersu/$ARCH
 COM=/tmp/supersu/common
 
 ui_print "- Disabling OTA survival"
-chmod 0755 /tmp/supersu/$ARCH/chattr$PIE
+chmod 0755 $BIN/chattr$PIE
 LD_LIBRARY_PATH=$SYSTEMLIB $BIN/chattr$PIE -i /system/bin/su
 LD_LIBRARY_PATH=$SYSTEMLIB $BIN/chattr$PIE -i /system/xbin/su
 LD_LIBRARY_PATH=$SYSTEMLIB $BIN/chattr$PIE -i /system/bin/.ext/.su
@@ -302,19 +304,31 @@ rm -f /data/app/eu.chainfire.supersu.apk
 
 ui_print "- Creating space"
 if ($APKFOLDER); then
-  cp /system/app/Maps/Maps.apk /Maps.apk
-  cp /system/app/GMS_Maps/GMS_Maps.apk /GMS_Maps.apk
-  cp /system/app/YouTube/YouTube.apk /YouTube.apk
-  rm /system/app/Maps/Maps.apk
-  rm /system/app/GMS_Maps/GMS_Maps.apk
-  rm /system/app/YouTube/YouTube.apk
+  if [ -f "/system/app/Maps/Maps.apk" ]; then
+    cp /system/app/Maps/Maps.apk /Maps.apk
+    rm /system/app/Maps/Maps.apk
+  fi
+  if [ -f "/system/app/GMS_Maps/GMS_Maps.apk" ]; then
+    cp /system/app/GMS_Maps/GMS_Maps.apk /GMS_Maps.apk
+    rm /system/app/GMS_Maps/GMS_Maps.apk
+  fi
+  if [ -f "/system/app/YouTube/YouTube.apk" ]; then
+    cp /system/app/YouTube/YouTube.apk /YouTube.apk
+    rm /system/app/YouTube/YouTube.apk
+  fi
 else
-  cp /system/app/Maps.apk /Maps.apk
-  cp /system/app/GMS_Maps.apk /GMS_Maps.apk
-  cp /system/app/YouTube.apk /YouTube.apk
-  rm /system/app/Maps.apk
-  rm /system/app/GMS_Maps.apk
-  rm /system/app/YouTube.apk
+  if [ -f "/system/app/Maps.apk" ]; then
+    cp /system/app/Maps.apk /Maps.apk
+    rm /system/app/Maps.apk
+  fi
+  if [ -f "/system/app/GMS_Maps.apk" ]; then  
+    cp /system/app/GMS_Maps.apk /GMS_Maps.apk
+    rm /system/app/GMS_Maps.apk
+  fi
+  if [ -f "/system/app/YouTube.apk" ]; then
+    cp /system/app/YouTube.apk /YouTube.apk
+    rm /system/app/YouTube.apk
+  fi
 fi
 
 ui_print "- Placing files"
@@ -370,19 +384,31 @@ set_perm 0 0 0644 /system/etc/.installed_su_daemon
 
 ui_print "- Restoring files"
 if ($APKFOLDER); then
-  cp_perm 0 0 0644 /Maps.apk /system/app/Maps/Maps.apk
-  cp_perm 0 0 0644 /GMS_Maps.apk /system/app/GMS_Maps/GMS_Maps.apk
-  cp_perm 0 0 0644 /YouTube.apk /system/app/YouTube/YouTube.apk
-  rm /Maps.apk
-  rm /GMS_Maps.apk
-  rm /YouTube.apk
+  if [ -f "/Maps.apk" ]; then
+    cp_perm 0 0 0644 /Maps.apk /system/app/Maps/Maps.apk
+    rm /Maps.apk
+  fi
+  if [ -f "/GMS_Maps.apk" ]; then
+    cp_perm 0 0 0644 /GMS_Maps.apk /system/app/GMS_Maps/GMS_Maps.apk
+    rm /GMS_Maps.apk
+  fi
+  if [ -f "/YouTube.apk" ]; then
+    cp_perm 0 0 0644 /YouTube.apk /system/app/YouTube/YouTube.apk
+    rm /YouTube.apk
+  fi
 else
-  cp_perm 0 0 0644 /Maps.apk /system/app/Maps.apk
-  cp_perm 0 0 0644 /GMS_Maps.apk /system/app/GMS_Maps.apk
-  cp_perm 0 0 0644 /YouTube.apk /system/app/YouTube.apk
-  rm /Maps.apk
-  rm /GMS_Maps.apk
-  rm /YouTube.apk
+  if [ -f "/Maps.apk" ]; then
+    cp_perm 0 0 0644 /Maps.apk /system/app/Maps.apk
+    rm /Maps.apk
+  fi
+  if [ -f "/GMS_Maps.apk" ]; then
+    cp_perm 0 0 0644 /GMS_Maps.apk /system/app/GMS_Maps.apk
+    rm /GMS_Maps.apk
+  fi
+  if [ -f "/YouTube.apk" ]; then
+    cp_perm 0 0 0644 /YouTube.apk /system/app/YouTube.apk
+    rm /YouTube.apk
+  fi
 fi
 
 ui_print "- Post-installation script"
