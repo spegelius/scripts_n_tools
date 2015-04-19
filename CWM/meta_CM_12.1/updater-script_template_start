@@ -1,0 +1,19 @@
+assert(getprop("ro.product.device") == "jactive" ||
+       getprop("ro.build.product") == "jactive" || 
+       getprop("ro.product.device") == "jactivelte" ||
+       getprop("ro.build.product") == "jactivelte" || 
+       getprop("ro.product.device") == "jactiveltexx" ||
+       getprop("ro.build.product") == "jactiveltexx" || 
+       getprop("ro.product.device") == "i9295" ||
+       getprop("ro.build.product") == "i9295" || 
+       getprop("ro.product.device") == "GT-I9295" ||
+       getprop("ro.build.product") == "GT-I9295" ||
+       abort("This package is for device: jactive,jactivelte,jactiveltexx,i9295,GT-I9295; this device is " + getprop("ro.product.device") + "."););
+
+ui_print("*******************************************");
+ui_print("*   CM (unofficial) ANDROIDVERHERE
+ui_print("*******************************************");
+ui_print("*            by spegelius                 *");
+ui_print("*******************************************");
+VERSIONSTRINGHERE
+ui_print("*******************************************");
