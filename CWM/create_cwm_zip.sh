@@ -5,7 +5,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CURDIR=$(pwd)
 
 
-
 function find_ota_zip() {
 
     pushd $OUT
@@ -49,6 +48,18 @@ function build_type() {
     fi
 }
 
+function do_help() {
+    echo "Create CWM flashable zip based on current build environment values."
+    echo "Supports AOSP 4.3 and 4.4, CM11 and CM12 otapackage builds"
+    echo
+    echo "Options:"
+    echo "-h, --help              This help"
+    echo "-d, --dualboot          Dualboot enabled updater scripts"
+    echo "-y, --dynfs             Dynamic filesystem updater script support (ext4/f2fs)"
+    echo "-v=VER, --version=VER   ROM version string (if not used, date is used)"
+    echo "-e=VER, --extraver=VER  Extra string to be appended to version string"
+    exit 0
+}
 
 build_type
 find_ota_zip
@@ -60,25 +71,48 @@ echo "Using OTA zip: ${ZIPPATH}"
 
 echo Android version: ${ANDROID_VER}, type: ${TYPE}
 
-if [ -z $1 ]; then
-    echo "No version given (want for example 0.5!), using date"
-    VER=$(date -r ${ZIPPATH} +%Y%m%d_%H%M%S)
-else
-    VER="$1"
-fi
 
-if [ "$2" == "--dualboot" ]; then
+for i in "$@"
+do
+case $i in
+    -v=*|--version=*)
+    VER="${i#*=}"
+    shift
+    ;;
+    -d|--dualboot)
     echo "**"
     echo Dualboot enabled
     echo "**"
     DUALBOOT=${DIR}/../../DualBootPatcher-8.0.0-release/
-    EXTRAVER="_dual"
-fi
-if [ "$2" == "--dynfs" ]; then
+    EXTRAVER="${EXTRAVER}_dual"
+    shift
+    ;;
+    -y|--dynfs)
     echo "**"
     echo Dynfs enabled
     echo "**"
-    EXTRAVER="_dynfs"
+    EXTRAVER="${EXTRAVER}_dynfs"
+    DYNFS="true"
+    shift
+    ;;
+    -e=*|--extraver=*)
+    EXTRAVER="${EXTRAVER}_${i#*=}"
+    shift
+    ;;
+    -h|--help)
+	do_help
+    shift
+    ;;
+    *)
+    echo "Unknown option $i"
+    exit 0
+    ;;
+esac
+done
+
+if [ -z $VER ]; then
+    echo "No version given (want for example 0.5!), using date"
+    VER=$(date -r ${ZIPPATH} +%Y%m%d_%H%M%S)
 fi
 
 if [ "${TYPE}" == "AOSP" ]; then
@@ -118,7 +152,7 @@ fi
 if [ "${TYPE}" == "AOSP" ]; then
     cp -rf ${DIR}/system/* ${WORKDIR}/system/
 fi
-if [ "$2" == "--dynfs" ]; then
+if [ "$DYNFS" == "true" ]; then
     cp -r ${DIR}/fscheck ${WORKDIR}
     MOUNTS=${DIR}/${METADIR}/updater-script_template_mounts_dynfs
 fi
@@ -141,7 +175,7 @@ for i in $(eval echo "{1..$COUNT}"); do
     AVERSTRING="${AVERSTRING} "
 done
 
-VERSTRING="${VER}"
+VERSTRING="${VER}${EXTRAVER}"
 COUNT=$(expr 40 - $(echo $VERSTRING | wc -c))
 for i in $(eval echo "{1..$COUNT}"); do
     VERSTRING="${VERSTRING} "
