@@ -1,0 +1,5 @@
+
+# done
+ui_print("Done install");
+ui_print("Please reboot your device");
+show_progress(1.000000, 100);

@@ -1,0 +1,24 @@
+
+# mounts
+ifelse(is_mounted("/system"), unmount("/system"));
+package_extract_dir("install", "/tmp/install");
+set_metadata_recursive("/tmp/install", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644);
+set_metadata_recursive("/tmp/install/bin", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755);
+run_program("/sbin/busybox", "mount", "/system");
+run_program("/tmp/install/bin/backuptool.sh", "backup");
+unmount("/system");
+if is_mounted("/data") then
+package_extract_file("META-INF/org/cyanogenmod/releasekey", "/tmp/releasekey");
+run_program("/tmp/install/bin/otasigcheck.sh") != "31744" || abort("Can't install this package on top of incompatible data. Please try another package or run a factory reset");
+else
+run_program("/sbin/busybox", "mount", "/data");
+package_extract_file("META-INF/org/cyanogenmod/releasekey", "/tmp/releasekey");
+run_program("/tmp/install/bin/otasigcheck.sh") != "31744" || abort("Can't install this package on top of incompatible data. Please try another package or run a factory reset");
+unmount("/data");
+endif;
+show_progress(0.750000, 0);
+package_extract_file("fscheck/format.sh", "/tmp/format.sh");
+set_metadata("/tmp/format.sh", "uid", 0, "gid", 0, "mode", 0755);
+run_program("/tmp/format.sh");
+run_program("/sbin/busybox", "mount", "/system");
+

@@ -39,6 +39,7 @@ function build_type() {
     
     METADIR=meta_${TYPE}_${ANDROID_VER}
 
+	# ANDROID_VER is for zip file name. This case truncates 12.0 or 11.0 to 12 or 11....
     if [ "${TYPE}" == "CM" ]; then
         if [ "${ANDROID_VER}" == "12.0" ]; then
             ANDROID_VER="12"
@@ -50,7 +51,7 @@ function build_type() {
 
 function do_help() {
     echo "Create CWM flashable zip based on current build environment values."
-    echo "Supports AOSP 4.3 and 4.4, CM11 and CM12 otapackage builds"
+    echo "Supports AOSP 4.3 and 4.4, CM11, CM12, CM12.1 and CM13.0 otapackage builds"
     echo
     echo "Options:"
     echo "-h, --help              This help"
